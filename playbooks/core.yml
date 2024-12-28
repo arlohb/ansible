@@ -1,0 +1,12 @@
+- name: Core
+  hosts: all
+  tasks:
+    - name: Install core
+      become: yes
+      apt:
+        pkg:
+          - neofetch
+          - btop
+          - neovim
+          - kitty-terminfo
+

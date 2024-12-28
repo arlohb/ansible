@@ -1,0 +1,9 @@
+- name: Update
+  hosts: all
+  tasks:
+    - name: Update
+      become: yes
+      apt:
+        update_cache: yes
+        upgrade: yes
+

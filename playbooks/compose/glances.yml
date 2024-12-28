@@ -1,0 +1,16 @@
+- name: Add Glances as a Docker Compose service
+  hosts: all
+  tasks:
+    - name: Create ~/containers/glances folder
+      ansible.builtin.file:
+        path: ~/containers/glances
+        state: directory
+    - name: Copy compose.yaml
+      ansible.builtin.copy:
+        dest: ~/containers/glances/compose.yaml
+        src: ./glances-compose.yml
+    - name: Start Docker Compose
+      community.docker.docker_compose_v2:
+        project_src: ~/containers/glances
+      register: output
+
