@@ -1,0 +1,8 @@
+- name: Auto remove
+  hosts: all
+  tasks:
+    - name: Auto remove
+      become: yes
+      apt:
+        autoremove: yes
+
