@@ -25,9 +25,12 @@ cloud:
     vps:
 rpis:
   hosts:
-    loki:
     pharah:
+
     heimdall:
+    pi21:
+    pi22:
+    loki:
     pi51:
     pi52:
 
