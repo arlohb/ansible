@@ -1,5 +1,6 @@
 - name: Reboot
   hosts: all
+  gather_facts: no
   become: yes
   tasks:
     - name: Reboot the hosts
