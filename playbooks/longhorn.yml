@@ -1,0 +1,19 @@
+- name: Install dependencies
+  hosts: nexus
+  become: true
+  tasks:
+    - name: Install dependencies
+      apt:
+        update_cache: yes
+        pkg:
+          - curl
+          - open-iscsi # Required for mounts on all nodes
+          - nfs-common # Required for backups
+- name: Reboot
+  hosts: nexus
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Reboot the hosts
+      ansible.builtin.reboot:
+
