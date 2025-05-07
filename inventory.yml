@@ -27,8 +27,12 @@ rpis:
     pluto:
     datasphere:
 nexus:
-  hosts:
-    neptune:
-    pluto:
-    datasphere:
+  children:
+    nexus_server:
+      hosts:
+        datasphere:
+    nexus_agents:
+      hosts:
+        neptune:
+        pluto:
 

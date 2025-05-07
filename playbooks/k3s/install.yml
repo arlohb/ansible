@@ -1,0 +1,5 @@
+- name: Install server
+  import_playbook: server-install.yml
+
+- name: Install agents
+  import_playbook: agent-install.yml

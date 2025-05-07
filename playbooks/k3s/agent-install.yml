@@ -1,0 +1,38 @@
+- name: Get k3s token from server
+  hosts: nexus_server
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: Read node token with slurp
+      ansible.builtin.slurp:
+        src: /var/lib/rancher/k3s/server/node-token
+      register: k3s_token_raw
+
+    - name: Set decoded token fact
+      ansible.builtin.set_fact:
+        k3s_token: "{{ k3s_token_raw.content | b64decode | trim }}"
+      delegate_to: localhost
+      run_once: true
+
+    - name: Debug the k3s token
+      ansible.builtin.debug:
+        msg: "The k3s token is: {{ k3s_token }}"
+
+- name: Install k3s agent
+  hosts: nexus_agents
+  become: yes
+  vars:
+    k3s_server_url: "https://{{ groups['nexus_server'][0] }}:6443"
+    k3s_token: "{{ hostvars[groups['nexus_server'][0]].k3s_token }}"
+  tasks:
+    - name: Download install script
+      ansible.builtin.get_url:
+        url: https://get.k3s.io
+        dest: /tmp/k3s_install.sh
+        mode: '0755'
+
+    - name: Run install script
+      ansible.builtin.shell: >
+        K3S_URL="{{ k3s_server_url }}"
+        K3S_TOKEN="{{ k3s_token }}"
+        /tmp/k3s_install.sh
