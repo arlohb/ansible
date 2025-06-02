@@ -1,5 +1,8 @@
 - name: Install server
   import_playbook: server-install.yml
 
+- name: Get kubeconfig
+  import_playbooks: get-kubeconfig.yml
+
 - name: Install agents
   import_playbook: agent-install.yml

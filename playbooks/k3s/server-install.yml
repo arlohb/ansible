@@ -16,28 +16,3 @@
           --flannel-backend=host-gw
         "
         /tmp/k3s_install.sh
-
-- name: Copy kubeconfig to control node
-  hosts: nexus_server
-  become: yes
-  gather_facts: false
-  vars:
-    kubeconfig_output_path: "/home/arlo/code/nexus/kubeconfig.yaml"
-    k3s_server_url: "https://{{ groups['nexus_server'][0] }}:6443"
-  tasks:
-    - name: Copy k3s kubeconfig to control node
-      ansible.builtin.fetch:
-        src: /etc/rancher/k3s/k3s.yaml
-        dest: "{{ kubeconfig_output_path }}"
-        flat: yes
-
-    - name: Adjust kubeconfig to use server's actual IP
-      delegate_to: localhost
-      ansible.builtin.lineinfile:
-        path: "{{ kubeconfig_output_path }}"
-        regexp: '^    server:.*'
-        line: "    server: {{ k3s_server_url }}"
-
-    - name: Debug the kubeconfig path
-      ansible.builtin.debug:
-        msg: "The k3s kubeconfig has been saved to: {{ kubeconfig_output_path }}"
