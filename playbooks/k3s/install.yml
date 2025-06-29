@@ -2,7 +2,7 @@
   import_playbook: server-install.yml
 
 - name: Get kubeconfig
-  import_playbooks: get-kubeconfig.yml
+  import_playbook: get-kubeconfig.yml
 
 - name: Install agents
   import_playbook: agent-install.yml
